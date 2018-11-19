@@ -1,0 +1,41 @@
+version: 2
+jobs:
+  lint:
+    docker:
+      # 使用するDockerイメージ  
+      - image: circleci/python:3.7.1
+    steps:
+      - checkout
+      - run: |
+              #仮想環境作成
+              python -m venv venv
+              source ./venv/bin/activatea
+              # 文法チェックツールflake8をインストール
+              pip install flake8
+              # flake8実行
+              flake8 ./flaskr
+  test:
+    docker:
+      - image: circleci/python:3.7.1
+    steps:
+      - checkout
+      - run: |
+              python -m venv venv
+              source ./venv/bin/activate
+              # テストランナーpytestをインストール
+              pip install pytest
+              # フレームワークflaskをインストール
+              pip install flask
+              # pytest実行
+              pytest --junit-xml=test-results/pytest.xml
+      - store_test_results:
+          path: test-results
+workflows:
+  version: 2
+  lint-and-test:
+    jobs:
+      - lint
+      - test:
+          # lintが成功した場合のみ、testが実行される
+          requires:
+            - lint
