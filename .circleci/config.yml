@@ -11,7 +11,7 @@ jobs:
               python -m venv venv
               source ./venv/bin/activate
               # 文法チェックツールflake8をインストール
-              pip install flake8
+              # pip install -r requirements.txt
               # flake8実行
               flake8 ./flaskr
   test:
@@ -23,9 +23,10 @@ jobs:
               python -m venv venv
               source ./venv/bin/activate
               # テストランナーpytestをインストール
-              pip install pytest
+              # pip install pytest
               # フレームワークflaskをインストール
-              pip install flask
+              # pip lnstall -r requirements.txt
+              # pip install flask
               # pytest実行
               pytest --junit-xml=test-results/pytest.xml
       - store_test_results:
